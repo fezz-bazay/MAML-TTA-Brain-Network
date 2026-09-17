@@ -1,12 +1,12 @@
 # Few-Shot Cross-Site Domain Generalization for Multi-Site Autism Brain Network Classification
 
-This is the official implementation of the paper **"Few-Shot Cross-Site Domain Generalization for Multi-Site Autism Brain Network Classification"**, submitted to MICCAI 2026 MLMI Workshop.
+This is the official implementation of the paper **"Few-Shot Cross-Site Domain Generalization for Multi-Site Autism Brain Network Classification"**, published at MICCAI 2026 MLCN Workshop.
 
 ## Overview
 
 ![Framework](fig/framework.png)
 
-We propose a site-adaptive meta-learning framework that combines Model-Agnostic Meta-Learning (MAML) with Test-Time Adaptation (TTA) for multi-site brain network classification. By treating each acquisition site as a distinct meta-learning task, our framework meta-trains a linear classifier on top of a frozen pre-trained backbone, learning an initialization that rapidly adapts to unseen sites at test time using only k=3 support examples.
+We propose a few-shot cross-site domain generalization framework based on Model-Agnostic Meta-Learning (MAML) for multi-site brain network classification. By treating each acquisition site as a distinct meta-learning task, our framework meta-trains a linear classifier on top of a frozen pre-trained backbone, learning an initialization that rapidly adapts to unseen sites using only k=3 labeled support examples.
 
 ![Results](fig/results.png)
 
@@ -22,7 +22,7 @@ data = np.load('/path/to/your/abide.npy', allow_pickle=True).item()
 ## Installation
 
 ```bash
-conda create --name maml_tta python=3.9
+conda create --name maml_fewshot python=3.9
 conda install pytorch torchvision torchaudio cudatoolkit=11.3 -c pytorch
 conda install -c conda-forge scikit-learn
 pip install omegaconf wandb
@@ -35,7 +35,7 @@ pip install omegaconf wandb
 sbatch scripts/train_bnt_source_only.sh
 ```
 
-### 2. Train our method (BNT-MAML-TTA)
+### 2. Train our method (BNT-MAML-FewShot)
 ```bash
 sbatch scripts/train_bnt_maml_tta.sh
 ```
@@ -76,11 +76,11 @@ Inter-site results on ABIDE I (mean ± std over 5 seeds):
 | BNT | 70.66 ± 0.86 | 65.47 ± 1.18 | 71.79 ± 3.92 | 58.49 ± 4.05 |
 | BNT-CORAL | 70.12 ± 0.23 | 65.03 ± 1.26 | 70.94 ± 3.69 | 58.49 ± 5.16 |
 | BNT-MLDG | 70.11 ± 1.19 | 64.65 ± 2.66 | 77.92 ± 8.40 | 50.00 ± 13.97 |
-| BNT-TTA (w/o MAML) | 69.47 ± 1.76 | 64.63 ± 1.88 | 69.01 ± 4.39 | 59.85 ± 3.46 |
-| BNT-MAML (w/o TTA) | 70.55 ± 0.75 | 63.35 ± 3.15 | 71.79 ± 3.92 | 58.49 ± 4.05 |
-| MLP-MAML-TTA | 69.05 ± 1.20 | 63.02 ± 1.80 | 69.20 ± 12.37 | 56.30 ± 10.79 |
-| GraphTransformer-MAML-TTA | 67.68 ± 0.83 | 61.29 ± 2.89 | 77.00 ± 12.40 | 44.24 ± 18.53 |
-| **BNT-MAML-TTA (ours)** | **72.39 ± 1.30** | **66.75 ± 2.22** | **75.31 ± 5.14** | 57.39 ± 7.96 |
+| BNT-FewShot (w/o MAML) | 69.47 ± 1.76 | 64.63 ± 1.88 | 69.01 ± 4.39 | 59.85 ± 3.46 |
+| BNT-MAML (w/o adaptation) | 70.55 ± 0.75 | 63.35 ± 3.15 | 71.79 ± 3.92 | 58.49 ± 4.05 |
+| MLP-MAML-FewShot | 69.05 ± 1.20 | 63.02 ± 1.80 | 69.20 ± 12.37 | 56.30 ± 10.79 |
+| GT-MAML-FewShot | 67.68 ± 0.83 | 61.29 ± 2.89 | 77.00 ± 12.40 | 44.24 ± 18.53 |
+| **BNT-MAML-FewShot (ours)** | **72.39 ± 1.30** | **66.75 ± 2.22** | **75.31 ± 5.14** | 57.39 ± 7.96 |
 
 ## Dependencies
 
@@ -100,11 +100,11 @@ Our backbone implementation is based on [Brain Network Transformer](https://gith
 If you find this code useful for your work, please cite our paper:
 
 ```bibtex
-@article{fewshot2026maml,
-  title={Few-Shot Cross-Site Domain Generalization for 
-         Multi-Site Autism Brain Network Classification},
-  journal={MICCAI MLMI Workshop},
+@inproceedings{bazay2026fewshot,
+  title={Few-Shot Cross-Site Domain Generalization for Multi-Site Autism Brain Network Classification},
+  author={Bazay, Fatima Ez-Zahraa and Barry, Martin and Widmer, Antoine and M{\"u}ller, Henning and Jennane, Rachid and Glocker, Ben and Drissi El Maliani, Ahmed},
+  booktitle={Machine Learning in Clinical Neuroimaging -- MLCN 2026},
   year={2026},
-  note={Paper under review}
+  publisher={Springer}
 }
 ```
